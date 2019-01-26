@@ -53,6 +53,31 @@ class _MyHomePageState extends State<MyHomePage> {
           locale: "de",
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PlantsList()),
+          );
+        },
+        backgroundColor: Colors.green[400],
+        tooltip: 'Pflanzen verwalten',
+        child: Icon(Icons.local_florist),
+      ),
+    );
+  }
+}
+
+class PlantsList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green[400],
+        title: Text("Pflanzen verwalten"),
+      ),
+      body: Container(
+      ),
     );
   }
 }
