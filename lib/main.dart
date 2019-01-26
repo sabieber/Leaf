@@ -76,7 +76,28 @@ class PlantsList extends StatelessWidget {
         backgroundColor: Colors.green[400],
         title: Text("Pflanzen verwalten"),
       ),
-      body: Container(
+      body: ListView(
+        children: <Widget>[
+          ListTile(
+            leading: Icon(Icons.local_florist, color: Colors.red),
+            title: Text('Monstera'),
+          ),
+          ListTile(
+            leading: Icon(Icons.local_florist, color: Colors.blue),
+            title: Text('Monkey Mask'),
+          ),
+          ListTile(
+            leading: Icon(Icons.local_florist, color: Colors.deepPurple),
+            title: Text('Gummibaum'),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+        },
+        backgroundColor: Colors.green[400],
+        tooltip: 'Pflanze hinzufügen',
+        child: Icon(Icons.add),
       ),
     );
   }
