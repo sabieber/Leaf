@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
@@ -104,7 +106,10 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 Future<List<Plant>> fetchPlantsFromDatabase() async {
-  return DBHelper().getPlants();
+  String path = await initDb("app.db");
+  PlantProvider provider = PlantProvider();
+  await provider.open(path);
+  return provider.getAll();
 }
 
 class PlantsList extends StatefulWidget {
@@ -138,7 +143,8 @@ class PlantsListState extends State<PlantsList> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PlantForm()),
+                                builder: (context) =>
+                                    PlantForm(snapshot.data[index])),
                           );
                         },
                       );
@@ -158,7 +164,7 @@ class PlantsListState extends State<PlantsList> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PlantForm()),
+            MaterialPageRoute(builder: (context) => PlantForm(null)),
           );
         },
         backgroundColor: Colors.green[400],
@@ -169,22 +175,49 @@ class PlantsListState extends State<PlantsList> {
   }
 }
 
-class PlantForm extends StatelessWidget {
+class PlantForm extends StatefulWidget {
+  PlantForm(this.plant);
+
+  final Plant plant;
+
+  @override
+  PlantFormState createState() => new PlantFormState();
+}
+
+class PlantFormState extends State<PlantForm> {
+  final formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.plant != null) {
+      nameController.text = widget.plant.name;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[400],
-        title: Text("Pflanze bearbeiten"),
+        title: Text(
+            widget.plant != null ? 'Pflanze bearbeiten' : 'Pflanze anlegen'),
       ),
       body: new Container(
         padding: new EdgeInsets.all(20.0),
         child: new Form(
-          key: new GlobalKey<FormState>(),
+          key: formKey,
           child: new ListView(
             children: <Widget>[
               new TextFormField(
                 keyboardType: TextInputType.text,
+                controller: nameController,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Gebe bitte den Name deiner Pflanze an';
+                  }
+                },
                 decoration: new InputDecoration(
                   labelText: 'Name',
                   border: OutlineInputBorder(),
@@ -195,9 +228,23 @@ class PlantForm extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          DBHelper().savePlant(new Plant('Test', Colors.green));
-          Navigator.pop(context);
+        onPressed: () async {
+          if (formKey.currentState.validate()) {
+            String path = await initDb("app.db");
+            PlantProvider provider = PlantProvider();
+            await provider.open(path);
+
+            if (widget.plant != null) {
+              Plant plant = widget.plant;
+              plant.name = nameController.text;
+              await provider.update(plant);
+            } else {
+              Plant plant = Plant(nameController.text, Colors.green);
+              await provider.insert(plant);
+            }
+
+            Navigator.pop(context);
+          }
         },
         label: Text('Speichern'),
         backgroundColor: Colors.green[400],
