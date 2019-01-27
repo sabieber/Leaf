@@ -151,7 +151,7 @@ class PlantsListState extends State<PlantsList> {
                       );
                     });
               } else {
-                return new Text("Keine Pflanzen angelegt");
+                return new Center(child: new Text("Keine Pflanzen angelegt"));
               }
             }
             return new Container(
