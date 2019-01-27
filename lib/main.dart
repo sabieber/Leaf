@@ -81,24 +81,87 @@ class PlantsList extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.local_florist, color: Colors.red),
             title: Text('Monstera'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PlantForm()),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.local_florist, color: Colors.blue),
             title: Text('Monkey Mask'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PlantForm()),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.local_florist, color: Colors.deepPurple),
             title: Text('Gummibaum'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PlantForm()),
+              );
+            },
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PlantForm()),
+          );
         },
         backgroundColor: Colors.green[400],
         tooltip: 'Pflanze hinzufügen',
         child: Icon(Icons.add),
       ),
+    );
+  }
+}
+
+class PlantForm extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green[400],
+        title: Text("Pflanze bearbeiten"),
+      ),
+      body: new Container(
+        padding: new EdgeInsets.all(20.0),
+        child: new Form(
+          key: new GlobalKey<FormState>(),
+          child: new ListView(
+            children: <Widget>[
+              new TextFormField(
+                keyboardType: TextInputType.text,
+                decoration: new InputDecoration(
+                  labelText: 'Name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PlantForm()),
+          );
+        },
+        label: Text('Speichern'),
+        backgroundColor: Colors.green[400],
+        icon: Icon(Icons.check),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
