@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
 
@@ -26,6 +27,20 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+class Watering {
+  final DateTime date;
+  final Plant plant;
+
+  Watering({this.date, this.plant}) : assert(date != null);
+}
+
+class Plant {
+  final String name;
+  final Color color;
+
+  Plant({this.name, this.color});
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -36,7 +51,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 16.0),
-        child: CalendarCarousel(
+        child: CalendarCarousel<Watering>(
+          onDayPressed: (DateTime date, List<Watering> events) {
+            events.forEach((event) => print(event.plant));
+          },
           weekendTextStyle: TextStyle(
             color: Colors.green[700],
           ),
@@ -45,6 +63,25 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           todayButtonColor: Colors.green[400],
           todayBorderColor: Colors.green[700],
+          markedDateIconMaxShown: 10,
+          markedDatesMap: new EventList<Watering>(events: {
+            new DateTime(2019, 01, 26): [
+              new Watering(
+                date: new DateTime(2019, 01, 26),
+                plant: Plant(
+                  name: 'Monstera',
+                  color: Colors.red,
+                ),
+              ),
+              new Watering(
+                date: new DateTime(2019, 01, 26),
+                plant: Plant(
+                  name: 'Gummibaum',
+                  color: Colors.blue,
+                ),
+              ),
+            ]
+          }),
           iconColor: Colors.black,
           thisMonthDayBorderColor: Colors.grey[300],
           weekFormat: false,
