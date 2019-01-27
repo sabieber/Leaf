@@ -213,6 +213,7 @@ class PlantFormState extends State<PlantForm> {
         child: new Form(
           key: formKey,
           child: new ListView(
+            physics: const NeverScrollableScrollPhysics(),
             children: <Widget>[
               new TextFormField(
                 keyboardType: TextInputType.text,
