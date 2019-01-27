@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
+import 'package:flutter_colorpicker/flutter_colorpicker.dart' show ColorPicker;
 import 'package:plant_calendar/database.dart';
 import 'package:plant_calendar/plant.dart';
 import 'package:plant_calendar/watering.dart';
@@ -164,7 +165,8 @@ class PlantsListState extends State<PlantsList> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PlantForm(null)),
+            MaterialPageRoute(
+                builder: (context) => PlantForm(new Plant(null, Colors.green))),
           );
         },
         backgroundColor: Colors.green[400],
@@ -187,12 +189,14 @@ class PlantForm extends StatefulWidget {
 class PlantFormState extends State<PlantForm> {
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
+  Color color;
 
   @override
   void initState() {
     super.initState();
     if (widget.plant != null) {
       nameController.text = widget.plant.name;
+      color = widget.plant.color;
     }
   }
 
@@ -202,7 +206,7 @@ class PlantFormState extends State<PlantForm> {
       appBar: AppBar(
         backgroundColor: Colors.green[400],
         title: Text(
-            widget.plant != null ? 'Pflanze bearbeiten' : 'Pflanze anlegen'),
+            widget.plant.id != null ? 'Pflanze bearbeiten' : 'Pflanze anlegen'),
       ),
       body: new Container(
         padding: new EdgeInsets.all(20.0),
@@ -223,6 +227,17 @@ class PlantFormState extends State<PlantForm> {
                   border: OutlineInputBorder(),
                 ),
               ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 8.0),
+                child: ColorPicker(
+                  pickerColor: color,
+                  enableLabel: false,
+                  enableAlpha: false,
+                  onColorChanged: (newColor) {
+                    color = newColor;
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -234,12 +249,13 @@ class PlantFormState extends State<PlantForm> {
             PlantProvider provider = PlantProvider();
             await provider.open(path);
 
-            if (widget.plant != null) {
+            if (widget.plant.id != null) {
               Plant plant = widget.plant;
               plant.name = nameController.text;
+              plant.color = color;
               await provider.update(plant);
             } else {
-              Plant plant = Plant(nameController.text, Colors.green);
+              Plant plant = Plant(nameController.text, color);
               await provider.insert(plant);
             }
 
