@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
+import 'package:plant_calendar/database.dart';
+import 'package:plant_calendar/plant.dart';
+import 'package:plant_calendar/watering.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,20 +28,6 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
-}
-
-class Watering {
-  final DateTime date;
-  final Plant plant;
-
-  Watering({this.date, this.plant}) : assert(date != null);
-}
-
-class Plant {
-  final String name;
-  final Color color;
-
-  Plant({this.name, this.color});
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -83,17 +72,11 @@ class _MyHomePageState extends State<MyHomePage> {
             new DateTime(2019, 01, 26): [
               new Watering(
                 date: new DateTime(2019, 01, 26),
-                plant: Plant(
-                  name: 'Monstera',
-                  color: Colors.red,
-                ),
+                plant: Plant('Monstera', Colors.red),
               ),
               new Watering(
                 date: new DateTime(2019, 01, 26),
-                plant: Plant(
-                  name: 'Gummibaum',
-                  color: Colors.blue,
-                ),
+                plant: Plant('Gummibaum', Colors.blue),
               ),
             ]
           }),
@@ -120,7 +103,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class PlantsList extends StatelessWidget {
+Future<List<Plant>> fetchPlantsFromDatabase() async {
+  return DBHelper().getPlants();
+}
+
+class PlantsList extends StatefulWidget {
+  @override
+  PlantsListState createState() => new PlantsListState();
+}
+
+class PlantsListState extends State<PlantsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,39 +120,39 @@ class PlantsList extends StatelessWidget {
         backgroundColor: Colors.green[400],
         title: Text("Pflanzen verwalten"),
       ),
-      body: ListView(
-        children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.local_florist, color: Colors.red),
-            title: Text('Monstera'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PlantForm()),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.local_florist, color: Colors.blue),
-            title: Text('Monkey Mask'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PlantForm()),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.local_florist, color: Colors.deepPurple),
-            title: Text('Gummibaum'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PlantForm()),
-              );
-            },
-          ),
-        ],
+      body: new Container(
+        padding: new EdgeInsets.all(16.0),
+        child: new FutureBuilder<List<Plant>>(
+          future: fetchPlantsFromDatabase(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data.length > 0) {
+                return new ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: Icon(Icons.local_florist,
+                            color: snapshot.data[index].color),
+                        title: Text(snapshot.data[index].name),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PlantForm()),
+                          );
+                        },
+                      );
+                    });
+              } else {
+                return new Text("Keine Pflanzen angelegt");
+              }
+            }
+            return new Container(
+              alignment: AlignmentDirectional.center,
+              child: new CircularProgressIndicator(),
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -204,10 +196,8 @@ class PlantForm extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PlantForm()),
-          );
+          DBHelper().savePlant(new Plant('Test', Colors.green));
+          Navigator.pop(context);
         },
         label: Text('Speichern'),
         backgroundColor: Colors.green[400],
