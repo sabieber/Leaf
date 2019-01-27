@@ -53,7 +53,22 @@ class _MyHomePageState extends State<MyHomePage> {
         margin: EdgeInsets.symmetric(horizontal: 16.0),
         child: CalendarCarousel<Watering>(
           onDayPressed: (DateTime date, List<Watering> events) {
-            events.forEach((event) => print(event.plant));
+            if (events.isEmpty) return;
+
+            showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return new Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: events.map((watering) {
+                      return new ListTile(
+                        leading: new Icon(Icons.local_florist,
+                            color: watering.plant.color),
+                        title: new Text(watering.plant.name),
+                      );
+                    }).toList(),
+                  );
+                });
           },
           weekendTextStyle: TextStyle(
             color: Colors.green[700],
