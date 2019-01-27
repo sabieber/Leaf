@@ -44,21 +44,41 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 16.0),
         child: CalendarCarousel<Watering>(
-          onDayPressed: (DateTime date, List<Watering> events) {
-            if (events.isEmpty) return;
-
+          onDayPressed: (DateTime date, List<Watering> waterings) {
             showModalBottomSheet<void>(
                 context: context,
                 builder: (BuildContext context) {
-                  return new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: events.map((watering) {
-                      return new ListTile(
-                        leading: new Icon(Icons.local_florist,
-                            color: watering.plant.color),
-                        title: new Text(watering.plant.name),
+                  return new FutureBuilder<List<Plant>>(
+                    future: fetchPlantsFromDatabase(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data.length > 0) {
+                          return new Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: snapshot.data.map((plant) {
+                              return new ListTile(
+                                leading: new Icon(Icons.local_florist,
+                                    color: plant.color),
+                                title: new Text(plant.name),
+                                trailing: new Checkbox(
+                                  value: waterings.any((watering) {
+                                    return watering.plant.id == plant.id;
+                                  }),
+                                  onChanged: (bool) {},
+                                ),
+                              );
+                            }).toList(),
+                          );
+                        } else {
+                          return new Center(
+                              child: new Text("Keine Pflanzen angelegt"));
+                        }
+                      }
+                      return new Container(
+                        alignment: AlignmentDirectional.center,
+                        child: new CircularProgressIndicator(),
                       );
-                    }).toList(),
+                    },
                   );
                 });
           },
@@ -75,11 +95,11 @@ class _MyHomePageState extends State<MyHomePage> {
             new DateTime(2019, 01, 26): [
               new Watering(
                 date: new DateTime(2019, 01, 26),
-                plant: Plant('Monstera', Colors.red),
+                plant: Plant('Monstera', Colors.red)..id = 1,
               ),
               new Watering(
                 date: new DateTime(2019, 01, 26),
-                plant: Plant('Gummibaum', Colors.blue),
+                plant: Plant('Gummibaum', Colors.blue)..id = 2,
               ),
             ]
           }),
