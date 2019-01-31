@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Pflanzen Kalender',
       theme: ThemeData(
         primarySwatch: Colors.green,
-        fontFamily: 'Montserrat'
+        fontFamily: 'Montserrat',
       ),
       home: MyHomePage(title: 'Pflanzen Kalender'),
     );
@@ -61,11 +61,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                 leading: new Icon(Icons.local_florist,
                                     color: plant.color),
                                 title: new Text(plant.name),
-                                trailing: new Checkbox(
-                                  value: waterings.any((watering) {
-                                    return watering.plant.id == plant.id;
-                                  }),
-                                  onChanged: (bool) {},
+                                subtitle: new Wrap(
+                                  spacing: 4.0,
+                                  children: [
+                                    new FilterChip(
+                                      onSelected: (value) {},
+                                      label: Text('Gegossen'),
+                                    ),
+                                    new FilterChip(
+                                      onSelected: (value) {},
+                                      label: Text('Gedüngt'),
+                                    ),
+                                  ],
                                 ),
                               );
                             }).toList(),
