@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Pflanzen Kalender',
       theme: ThemeData(
         primarySwatch: Colors.green,
+        fontFamily: 'Montserrat'
       ),
       home: MyHomePage(title: 'Pflanzen Kalender'),
     );
