@@ -51,6 +51,10 @@ class CalendarState extends State<Calendar> {
                                     ),
                                     new FilterChip(
                                       onSelected: (value) {},
+                                      label: Text('Eingesprüht'),
+                                    ),
+                                    new FilterChip(
+                                      onSelected: (value) {},
                                       label: Text('Gedüngt'),
                                     ),
                                   ],
