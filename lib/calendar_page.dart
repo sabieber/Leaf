@@ -5,6 +5,7 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
 import 'package:plant_calendar/plant.dart';
 import 'package:plant_calendar/plants_list_page.dart';
 import 'package:plant_calendar/watering.dart';
+import 'package:plant_calendar/watering_bottom_sheet.dart';
 
 class Calendar extends StatefulWidget {
   Calendar({Key key, this.title}) : super(key: key);
@@ -30,49 +31,7 @@ class CalendarState extends State<Calendar> {
             showModalBottomSheet<void>(
                 context: context,
                 builder: (BuildContext context) {
-                  return new FutureBuilder<List<Plant>>(
-                    future: fetchPlantsFromDatabase(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data.length > 0) {
-                          return new Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: snapshot.data.map((plant) {
-                              return new ListTile(
-                                leading: new Icon(Icons.local_florist,
-                                    color: plant.color),
-                                title: new Text(plant.name),
-                                subtitle: new Wrap(
-                                  spacing: 4.0,
-                                  children: [
-                                    new FilterChip(
-                                      onSelected: (value) {},
-                                      label: Text('Gegossen'),
-                                    ),
-                                    new FilterChip(
-                                      onSelected: (value) {},
-                                      label: Text('Eingesprüht'),
-                                    ),
-                                    new FilterChip(
-                                      onSelected: (value) {},
-                                      label: Text('Gedüngt'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          );
-                        } else {
-                          return new Center(
-                              child: new Text("Keine Pflanzen angelegt"));
-                        }
-                      }
-                      return new Container(
-                        alignment: AlignmentDirectional.center,
-                        child: new CircularProgressIndicator(),
-                      );
-                    },
-                  );
+                  return WateringBottomSheet();
                 });
           },
           weekendTextStyle: TextStyle(
@@ -85,13 +44,13 @@ class CalendarState extends State<Calendar> {
           todayBorderColor: Colors.green[700],
           markedDateIconMaxShown: 10,
           markedDatesMap: new EventList<Watering>(events: {
-            new DateTime(2019, 01, 26): [
+            new DateTime(2019, 02, 20): [
               new Watering(
-                date: new DateTime(2019, 01, 26),
+                date: new DateTime(2019, 02, 20),
                 plant: Plant('Monstera', Colors.red)..id = 1,
               ),
               new Watering(
-                date: new DateTime(2019, 01, 26),
+                date: new DateTime(2019, 02, 20),
                 plant: Plant('Gummibaum', Colors.blue)..id = 2,
               ),
             ]
