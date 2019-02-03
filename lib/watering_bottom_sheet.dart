@@ -69,7 +69,10 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
         runSpacing: -8.0,
         children: [
           new FilterChip(
-            label: Text('Gegossen'),
+            label: Text(
+              'Gießen',
+              textScaleFactor: 0.8,
+            ),
             selected: waterings?.any((watering) {
                   return watering.plant == plant.id && watering.type == 0;
                 }) ??
@@ -87,7 +90,10 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
             },
           ),
           new FilterChip(
-            label: Text('Besprüht'),
+            label: Text(
+              'Einsprühen',
+              textScaleFactor: 0.8,
+            ),
             selected: waterings?.any((watering) {
                   return watering.plant == plant.id && watering.type == 1;
                 }) ??
@@ -105,7 +111,10 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
             },
           ),
           new FilterChip(
-            label: Text('Gedüngt'),
+            label: Text(
+              'Düngen',
+              textScaleFactor: 0.8,
+            ),
             selected: waterings?.any((watering) {
                   return watering.plant == plant.id && watering.type == 1;
                 }) ??
