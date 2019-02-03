@@ -34,15 +34,36 @@ class CalendarState extends State<Calendar> {
                 });
           },
           headerText: Text(
-            '${DateFormat.yMMMM().format(DateTime.now())}', style: TextStyle(
-            fontSize: 32,
-            fontFamily: 'Satisfy',
-          ),),
+            '${DateFormat.yMMMM().format(DateTime.now())}',
+            style: TextStyle(
+              fontSize: 32,
+              fontFamily: 'Satisfy',
+            ),
+          ),
+          prevDaysTextStyle: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 12,
+          ),
+          daysTextStyle: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 18,
+          ),
+          todayTextStyle: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 18,
+          ),
           weekendTextStyle: TextStyle(
             color: Colors.green[700],
+            fontFamily: 'Montserrat',
+            fontSize: 18,
+          ),
+          nextDaysTextStyle: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 12,
           ),
           weekdayTextStyle: TextStyle(
             color: Colors.green[700],
+            fontFamily: 'Montserrat',
           ),
           todayButtonColor: Colors.green[400],
           todayBorderColor: Colors.green[700],
