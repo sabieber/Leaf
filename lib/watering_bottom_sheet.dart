@@ -7,8 +7,7 @@ import 'package:plant_calendar/watering.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<List<Watering>> fetchWateringsFromDatabase(DateTime date) async {
-  String path = await initDb("app.db");
-  Database db = await openDb(path);
+  Database db = await openDb();
   WateringProvider provider = WateringProvider(db);
   return provider.getAllForDate(date);
 }
@@ -76,8 +75,7 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
                 }) ??
                 false,
             onSelected: (value) async {
-              String path = await initDb("app.db");
-              Database db = await openDb(path);
+              Database db = await openDb();
               WateringProvider provider = WateringProvider(db);
 
               if (value) {

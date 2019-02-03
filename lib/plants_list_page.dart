@@ -5,8 +5,7 @@ import 'package:plant_calendar/plant_form_page.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<List<Plant>> fetchPlantsFromDatabase() async {
-  String path = await initDb("app.db");
-  Database db = await openDb(path);
+  Database db = await openDb();
   PlantProvider provider = PlantProvider(db);
   return provider.getAll();
 }

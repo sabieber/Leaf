@@ -73,8 +73,7 @@ class PlantFormState extends State<PlantForm> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           if (formKey.currentState.validate()) {
-            String path = await initDb("app.db");
-            Database db = await openDb(path);
+            Database db = await openDb();
             PlantProvider provider = PlantProvider(db);
 
             if (widget.plant.id != null) {

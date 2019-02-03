@@ -6,7 +6,7 @@ import 'package:plant_calendar/plant.dart';
 import 'package:plant_calendar/watering.dart';
 import 'package:sqflite/sqflite.dart';
 
-Future<String> initDb(String dbName) async {
+Future<String> _initDb(String dbName) async {
   var databasePath = await getDatabasesPath();
   String path = join(databasePath, dbName);
 
@@ -20,7 +20,9 @@ Future<String> initDb(String dbName) async {
   return path;
 }
 
-Future<Database> openDb(String path) async {
+Future<Database> openDb() async {
+  String path = await _initDb('app.db');
+
   return await openDatabase(path, version: 1,
       onCreate: (Database db, int version) async {
     await db.execute('''
