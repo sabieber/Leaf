@@ -48,10 +48,12 @@ class CalendarState extends State<Calendar> {
               new Watering(
                 date: new DateTime(2019, 02, 20),
                 plant: Plant('Monstera', Colors.red)..id = 1,
+                type: 0,
               ),
               new Watering(
                 date: new DateTime(2019, 02, 20),
                 plant: Plant('Gummibaum', Colors.blue)..id = 2,
+                type: 1,
               ),
             ]
           }),
