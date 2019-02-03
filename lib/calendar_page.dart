@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
+import 'package:intl/intl.dart';
 import 'package:plant_calendar/plants_list_page.dart';
 import 'package:plant_calendar/watering.dart';
 import 'package:plant_calendar/watering_bottom_sheet.dart';
@@ -32,6 +33,11 @@ class CalendarState extends State<Calendar> {
                   return WateringBottomSheet(date: date);
                 });
           },
+          headerText: Text(
+            '${DateFormat.yMMMM().format(DateTime.now())}', style: TextStyle(
+            fontSize: 32,
+            fontFamily: 'Satisfy',
+          ),),
           weekendTextStyle: TextStyle(
             color: Colors.green[700],
           ),

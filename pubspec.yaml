@@ -29,6 +29,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  fonts:
+    - family: Satisfy
+      fonts:
+        - asset: "assets/fonts/Satisfy-Regular.ttf"
+
 flutter_icons:
   android: true
   ios: true
