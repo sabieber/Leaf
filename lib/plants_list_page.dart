@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:plant_calendar/database.dart';
 import 'package:plant_calendar/plant.dart';
@@ -63,7 +65,10 @@ class PlantsListState extends State<PlantsList> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => PlantForm(new Plant(null, Colors.green))),
+                builder: (context) => PlantForm(new Plant(
+                    null,
+                    Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
+                        .withOpacity(1.0)))),
           );
         },
         backgroundColor: Colors.green[400],
