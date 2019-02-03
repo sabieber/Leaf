@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plant_calendar/plant.dart';
 import 'package:plant_calendar/plants_list_page.dart';
+import 'package:plant_calendar/tuple.dart';
 
 class WateringBottomSheet extends StatefulWidget {
   @override
@@ -8,6 +9,8 @@ class WateringBottomSheet extends StatefulWidget {
 }
 
 class WateringBottomSheetState extends State<WateringBottomSheet> {
+  List<Tuple<int, int>> filters = <Tuple<int, int>>[];
+
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder<List<Plant>>(
@@ -23,18 +26,64 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
                   title: new Text(plant.name),
                   subtitle: new Wrap(
                     spacing: 4.0,
+                    runSpacing: -8.0,
                     children: [
                       new FilterChip(
-                        onSelected: (value) {},
                         label: Text('Gegossen'),
+                        selected: filters.any((watering) {
+                          return watering.first == plant.id &&
+                              watering.second == 0;
+                        }),
+                        onSelected: (value) {
+                          setState(() {
+                            if (value) {
+                              filters.add(new Tuple(plant.id, 0));
+                            } else {
+                              filters.removeWhere((watering) {
+                                return watering.first == plant.id &&
+                                    watering.second == 0;
+                              });
+                            }
+                          });
+                        },
                       ),
                       new FilterChip(
-                        onSelected: (value) {},
-                        label: Text('Eingesprüht'),
+                        label: Text('Besprüht'),
+                        selected: filters.any((watering) {
+                          return watering.first == plant.id &&
+                              watering.second == 1;
+                        }),
+                        onSelected: (value) {
+                          setState(() {
+                            if (value) {
+                              filters.add(new Tuple(plant.id, 1));
+                            } else {
+                              filters.removeWhere((watering) {
+                                return watering.first == plant.id &&
+                                    watering.second == 1;
+                              });
+                            }
+                          });
+                        },
                       ),
                       new FilterChip(
-                        onSelected: (value) {},
                         label: Text('Gedüngt'),
+                        selected: filters.any((watering) {
+                          return watering.first == plant.id &&
+                              watering.second == 2;
+                        }),
+                        onSelected: (value) {
+                          setState(() {
+                            if (value) {
+                              filters.add(new Tuple(plant.id, 2));
+                            } else {
+                              filters.removeWhere((watering) {
+                                return watering.first == plant.id &&
+                                    watering.second == 2;
+                              });
+                            }
+                          });
+                        },
                       ),
                     ],
                   ),
