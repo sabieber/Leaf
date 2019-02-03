@@ -30,7 +30,7 @@ class CalendarState extends State<Calendar> {
             showModalBottomSheet<void>(
                 context: context,
                 builder: (BuildContext context) {
-                  return WateringBottomSheet();
+                  return WateringBottomSheet(date: date);
                 });
           },
           weekendTextStyle: TextStyle(

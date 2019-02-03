@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:plant_calendar/database.dart';
 import 'package:plant_calendar/plant.dart';
 import 'package:plant_calendar/plant_form_page.dart';
+import 'package:sqflite/sqflite.dart';
 
 Future<List<Plant>> fetchPlantsFromDatabase() async {
   String path = await initDb("app.db");
-  PlantProvider provider = PlantProvider();
-  await provider.open(path);
+  Database db = await openDb(path);
+  PlantProvider provider = PlantProvider(db);
   return provider.getAll();
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart' show ColorPicker;
 import 'package:plant_calendar/database.dart';
 import 'package:plant_calendar/plant.dart';
+import 'package:sqflite/sqflite.dart';
 
 class PlantForm extends StatefulWidget {
   PlantForm(this.plant);
@@ -73,8 +74,8 @@ class PlantFormState extends State<PlantForm> {
         onPressed: () async {
           if (formKey.currentState.validate()) {
             String path = await initDb("app.db");
-            PlantProvider provider = PlantProvider();
-            await provider.open(path);
+            Database db = await openDb(path);
+            PlantProvider provider = PlantProvider(db);
 
             if (widget.plant.id != null) {
               Plant plant = widget.plant;
