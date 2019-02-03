@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
 import 'package:plant_calendar/plants_list_page.dart';
@@ -42,20 +41,6 @@ class CalendarState extends State<Calendar> {
           todayButtonColor: Colors.green[400],
           todayBorderColor: Colors.green[700],
           markedDateIconMaxShown: 10,
-          markedDatesMap: new EventList<Watering>(events: {
-            new DateTime(2019, 02, 20): [
-              new Watering(
-                date: new DateTime(2019, 02, 20),
-                plant: 1,
-                type: 0,
-              ),
-              new Watering(
-                date: new DateTime(2019, 02, 20),
-                plant: 2,
-                type: 1,
-              ),
-            ]
-          }),
           iconColor: Colors.black,
           thisMonthDayBorderColor: Colors.grey[300],
           weekFormat: false,
