@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:plant_calendar/database.dart';
 import 'package:plant_calendar/plant.dart';
 import 'package:plant_calendar/plants_list_page.dart';
 import 'package:plant_calendar/tuple.dart';
+import 'package:plant_calendar/watering.dart';
+
+Future<List<Watering>> fetchWateringsFromDatabase() async {
+  String path = await initDb("app.db");
+  WateringProvider provider = WateringProvider();
+  await provider.open(path);
+  return provider.getAll();
+}
 
 class WateringBottomSheet extends StatefulWidget {
   @override

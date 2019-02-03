@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
-import 'package:plant_calendar/plant.dart';
 import 'package:plant_calendar/plants_list_page.dart';
 import 'package:plant_calendar/watering.dart';
 import 'package:plant_calendar/watering_bottom_sheet.dart';
@@ -47,12 +46,12 @@ class CalendarState extends State<Calendar> {
             new DateTime(2019, 02, 20): [
               new Watering(
                 date: new DateTime(2019, 02, 20),
-                plant: Plant('Monstera', Colors.red)..id = 1,
+                plant: 1,
                 type: 0,
               ),
               new Watering(
                 date: new DateTime(2019, 02, 20),
-                plant: Plant('Gummibaum', Colors.blue)..id = 2,
+                plant: 2,
                 type: 1,
               ),
             ]
