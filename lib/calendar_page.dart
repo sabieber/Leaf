@@ -16,6 +16,8 @@ class Calendar extends StatefulWidget {
 }
 
 class CalendarState extends State<Calendar> {
+  DateTime visibleMonth = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +35,13 @@ class CalendarState extends State<Calendar> {
                   return WateringBottomSheet(date: date);
                 });
           },
+          onCalendarChanged: (DateTime date) {
+            setState(() {
+              visibleMonth = date;
+            });
+          },
           headerText: Text(
-            '${DateFormat.yMMMM().format(DateTime.now())}',
+            '${DateFormat.yMMMM('de').format(visibleMonth)}',
             style: TextStyle(
               fontSize: 32,
               fontFamily: 'Satisfy',
