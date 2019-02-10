@@ -89,6 +89,25 @@ class WateringProvider {
     }).toList();
   }
 
+  Future<List<Watering>> getAllForMonth(DateTime date) async {
+    List<Map> maps = await db.query(
+      tableWatering,
+      where: "$columnYear = ? AND $columnMonth = ?",
+      whereArgs: [date.year, date.month],
+      columns: [
+        columnId,
+        columnYear,
+        columnMonth,
+        columnDay,
+        columnPlant,
+        columnType
+      ],
+    );
+    return maps.map((map) {
+      return Watering.fromMap(map);
+    }).toList();
+  }
+
   Future<List<Watering>> getAllForDate(DateTime date) async {
     List<Map> maps = await db.query(
       tableWatering,
