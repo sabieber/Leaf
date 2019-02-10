@@ -28,7 +28,9 @@ Future<Database> openDb() async {
     await db.execute('''
 create table $tableWatering ( 
   $columnId integer primary key autoincrement, 
-  $columnDate integer not null,
+  $columnYear integer not null,
+  $columnMonth integer not null,
+  $columnDay integer not null,
   $columnPlant integer not null,
   $columnType integer not null,
   FOREIGN KEY($columnPlant) REFERENCES $tablePlant($columnId))

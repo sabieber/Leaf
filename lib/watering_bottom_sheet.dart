@@ -82,8 +82,12 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
               WateringProvider provider = WateringProvider(db);
 
               if (value) {
-                provider.insert(
-                    new Watering(date: widget.date, plant: plant.id, type: 0));
+                provider.insert(new Watering(
+                    year: widget.date.year,
+                    month: widget.date.month,
+                    day: widget.date.day,
+                    plant: plant.id,
+                    type: 0));
               } else {
                 provider.deleteByType(widget.date, 0);
               }
@@ -104,8 +108,12 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
               WateringProvider provider = WateringProvider(db);
 
               if (value) {
-                provider.insert(
-                    new Watering(date: widget.date, plant: plant.id, type: 1));
+                provider.insert(new Watering(
+                    year: widget.date.year,
+                    month: widget.date.month,
+                    day: widget.date.day,
+                    plant: plant.id,
+                    type: 1));
               } else {
                 provider.deleteByType(widget.date, 1);
               }
@@ -126,8 +134,12 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
               WateringProvider provider = WateringProvider(db);
 
               if (value) {
-                provider.insert(
-                    new Watering(date: widget.date, plant: plant.id, type: 2));
+                provider.insert(new Watering(
+                    year: widget.date.year,
+                    month: widget.date.month,
+                    day: widget.date.day,
+                    plant: plant.id,
+                    type: 2));
               } else {
                 provider.deleteByType(widget.date, 2);
               }

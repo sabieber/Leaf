@@ -2,28 +2,36 @@ import 'package:sqflite/sqflite.dart';
 
 final String tableWatering = "watering";
 final String columnId = "_id";
-final String columnDate = "date";
+final String columnYear = "year";
+final String columnMonth = "month";
+final String columnDay = "day";
 final String columnPlant = "plant";
 final String columnType = "type";
 
 class Watering {
-  Watering({this.date, this.plant, this.type});
+  Watering({this.year, this.month, this.day, this.plant, this.type});
 
   int id;
-  DateTime date;
+  int year;
+  int month;
+  int day;
   int plant;
   int type;
 
   Watering.fromMap(Map map) {
     id = map[columnId] as int;
-    date = new DateTime.fromMicrosecondsSinceEpoch(map[columnDate] as int);
+    year = map[columnYear] as int;
+    month = map[columnMonth] as int;
+    day = map[columnDay] as int;
     plant = map[columnPlant] as int;
     type = map[columnType] as int;
   }
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-      columnDate: date.millisecondsSinceEpoch,
+      columnYear: year,
+      columnMonth: month,
+      columnDay: day,
       columnPlant: plant,
       columnType: type
     };
@@ -47,7 +55,14 @@ class WateringProvider {
   Future<Watering> get(int id) async {
     List<Map> maps = await db.query(
       tableWatering,
-      columns: [columnId, columnDate, columnPlant, columnType],
+      columns: [
+        columnId,
+        columnYear,
+        columnMonth,
+        columnDay,
+        columnPlant,
+        columnType
+      ],
       where: "$columnId = ?",
       whereArgs: [id],
     );
@@ -60,7 +75,14 @@ class WateringProvider {
   Future<List<Watering>> getAll() async {
     List<Map> maps = await db.query(
       tableWatering,
-      columns: [columnId, columnDate, columnPlant, columnType],
+      columns: [
+        columnId,
+        columnYear,
+        columnMonth,
+        columnDay,
+        columnPlant,
+        columnType
+      ],
     );
     return maps.map((map) {
       return Watering.fromMap(map);
@@ -70,9 +92,16 @@ class WateringProvider {
   Future<List<Watering>> getAllForDate(DateTime date) async {
     List<Map> maps = await db.query(
       tableWatering,
-      where: "$columnDate = ?",
-      whereArgs: [date.millisecondsSinceEpoch],
-      columns: [columnId, columnDate, columnPlant, columnType],
+      where: "$columnYear = ? AND $columnMonth = ? AND $columnDay = ?",
+      whereArgs: [date.year, date.month, date.day],
+      columns: [
+        columnId,
+        columnYear,
+        columnMonth,
+        columnDay,
+        columnPlant,
+        columnType
+      ],
     );
     return maps.map((map) {
       return Watering.fromMap(map);
@@ -90,8 +119,9 @@ class WateringProvider {
   Future<int> deleteByType(DateTime date, int type) async {
     return await db.delete(
       tableWatering,
-      where: "$columnDate = ? AND $columnType = ?",
-      whereArgs: [date.millisecondsSinceEpoch, type],
+      where:
+          "$columnYear = ? AND $columnMonth = ? AND $columnDay = ? AND $columnType = ?",
+      whereArgs: [date.year, date.month, date.day, type],
     );
   }
 
