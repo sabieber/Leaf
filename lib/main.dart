@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:plant_calendar/calendar_page.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  initializeDateFormatting('de_DE', null);
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

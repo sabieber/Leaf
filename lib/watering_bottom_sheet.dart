@@ -87,6 +87,7 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
               } else {
                 provider.deleteByType(widget.date, 0);
               }
+              setState(() {});
             },
           ),
           new FilterChip(
@@ -98,16 +99,17 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
                   return watering.plant == plant.id && watering.type == 1;
                 }) ??
                 false,
-            onSelected: (value) {
-              setState(() {
-                if (value) {
-                  filters.add(new Tuple(plant.id, 1));
-                } else {
-                  filters.removeWhere((watering) {
-                    return watering.first == plant.id && watering.second == 1;
-                  });
-                }
-              });
+            onSelected: (value) async {
+              Database db = await openDb();
+              WateringProvider provider = WateringProvider(db);
+
+              if (value) {
+                provider.insert(
+                    new Watering(date: widget.date, plant: plant.id, type: 1));
+              } else {
+                provider.deleteByType(widget.date, 1);
+              }
+              setState(() {});
             },
           ),
           new FilterChip(
@@ -116,19 +118,20 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
               textScaleFactor: 0.8,
             ),
             selected: waterings?.any((watering) {
-                  return watering.plant == plant.id && watering.type == 1;
+                  return watering.plant == plant.id && watering.type == 2;
                 }) ??
                 false,
-            onSelected: (value) {
-              setState(() {
-                if (value) {
-                  filters.add(new Tuple(plant.id, 2));
-                } else {
-                  filters.removeWhere((watering) {
-                    return watering.first == plant.id && watering.second == 2;
-                  });
-                }
-              });
+            onSelected: (value) async {
+              Database db = await openDb();
+              WateringProvider provider = WateringProvider(db);
+
+              if (value) {
+                provider.insert(
+                    new Watering(date: widget.date, plant: plant.id, type: 2));
+              } else {
+                provider.deleteByType(widget.date, 2);
+              }
+              setState(() {});
             },
           ),
         ],
