@@ -53,7 +53,9 @@ class CalendarState extends State<Calendar> {
                         context: context,
                         builder: (BuildContext context) {
                           return WateringBottomSheet(date: date);
-                        });
+                        }).whenComplete(() {
+                      setState(() {});
+                    });
                   },
                   onCalendarChanged: (DateTime date) {
                     setState(() {
