@@ -4,6 +4,7 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
 import 'package:intl/intl.dart';
 import 'package:plant_calendar/database.dart';
+import 'package:plant_calendar/plant.dart';
 import 'package:plant_calendar/plants_list_page.dart';
 import 'package:plant_calendar/watering.dart';
 import 'package:plant_calendar/watering_bottom_sheet.dart';
@@ -36,75 +37,98 @@ class CalendarState extends State<Calendar> {
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 16.0),
-        child: FutureBuilder<List<Watering>>(
-            future: fetchWateringsFromDatabase(visibleMonth),
-            builder: (context, waterings) {
-              if (waterings.hasData) {
-                EventList<Watering> wateringData = EventList();
-                waterings.data.forEach((watering) {
-                  wateringData.add(
-                      new DateTime(watering.year, watering.month, watering.day),
-                      watering);
-                });
+        child: FutureBuilder<List<Plant>>(
+            future: fetchPlantsFromDatabase(),
+            builder: (context, plants) {
+              if (plants.hasData) {
+                return FutureBuilder<List<Watering>>(
+                    future: fetchWateringsFromDatabase(visibleMonth),
+                    builder: (context, waterings) {
+                      if (waterings.hasData) {
+                        EventList<Watering> wateringData = EventList();
+                        waterings.data.forEach((watering) {
+                          wateringData.add(
+                              new DateTime(
+                                  watering.year, watering.month, watering.day),
+                              watering);
+                        });
 
-                return new CalendarCarousel<Watering>(
-                  onDayPressed: (DateTime date, List<Watering> waterings) {
-                    showModalBottomSheet<void>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return WateringBottomSheet(date: date);
-                        }).whenComplete(() {
-                      setState(() {});
+                        return new CalendarCarousel<Watering>(
+                          onDayPressed:
+                              (DateTime date, List<Watering> waterings) {
+                            showModalBottomSheet<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return WateringBottomSheet(date: date);
+                                }).whenComplete(() {
+                              setState(() {});
+                            });
+                          },
+                          onCalendarChanged: (DateTime date) {
+                            setState(() {
+                              visibleMonth = date;
+                            });
+                          },
+                          markedDatesMap: wateringData,
+                          markedDateShowIcon: false,
+                          markedDateIconBuilder: (watering) {
+                            var plantColor = plants.data
+                                .firstWhere(
+                                    (plant) => plant.id == watering.plant,
+                                    orElse: () => null)
+                                ?.color;
+                            return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 1.0),
+                              color: plantColor ?? Colors.black,
+                              height: 4.0,
+                              width: 4.0,
+                            );
+                          },
+                          headerText: Text(
+                            '${DateFormat.yMMMM('de').format(visibleMonth)}',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontFamily: 'Satisfy',
+                            ),
+                          ),
+                          prevDaysTextStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 12,
+                          ),
+                          daysTextStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 18,
+                          ),
+                          todayTextStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 18,
+                          ),
+                          weekendTextStyle: TextStyle(
+                            color: Colors.green[700],
+                            fontFamily: 'Montserrat',
+                            fontSize: 18,
+                          ),
+                          nextDaysTextStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 12,
+                          ),
+                          weekdayTextStyle: TextStyle(
+                            color: Colors.green[700],
+                            fontFamily: 'Montserrat',
+                          ),
+                          todayButtonColor: Colors.green[400],
+                          todayBorderColor: Colors.green[700],
+                          markedDateIconMaxShown: 10,
+                          iconColor: Colors.black,
+                          thisMonthDayBorderColor: Colors.grey[300],
+                          weekFormat: false,
+                          height: 420.0,
+                          daysHaveCircularBorder: false,
+                          locale: "de",
+                        );
+                      }
+                      return Text("loading");
                     });
-                  },
-                  onCalendarChanged: (DateTime date) {
-                    setState(() {
-                      visibleMonth = date;
-                    });
-                  },
-                  markedDatesMap: wateringData,
-                  headerText: Text(
-                    '${DateFormat.yMMMM('de').format(visibleMonth)}',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontFamily: 'Satisfy',
-                    ),
-                  ),
-                  prevDaysTextStyle: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 12,
-                  ),
-                  daysTextStyle: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 18,
-                  ),
-                  todayTextStyle: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 18,
-                  ),
-                  weekendTextStyle: TextStyle(
-                    color: Colors.green[700],
-                    fontFamily: 'Montserrat',
-                    fontSize: 18,
-                  ),
-                  nextDaysTextStyle: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 12,
-                  ),
-                  weekdayTextStyle: TextStyle(
-                    color: Colors.green[700],
-                    fontFamily: 'Montserrat',
-                  ),
-                  todayButtonColor: Colors.green[400],
-                  todayBorderColor: Colors.green[700],
-                  markedDateIconMaxShown: 10,
-                  iconColor: Colors.black,
-                  thisMonthDayBorderColor: Colors.grey[300],
-                  weekFormat: false,
-                  height: 420.0,
-                  daysHaveCircularBorder: false,
-                  locale: "de",
-                );
               }
               return Text("loading");
             }),
