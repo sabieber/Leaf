@@ -30,6 +30,9 @@ flutter:
   uses-material-design: true
 
   fonts:
+    - family: Monstera
+      fonts:
+        - asset: "assets/fonts/Monstera.ttf"
     - family: Satisfy
       fonts:
         - asset: "assets/fonts/Satisfy-Regular.ttf"

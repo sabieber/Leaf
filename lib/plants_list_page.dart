@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:plant_calendar/database.dart';
+import 'package:plant_calendar/monstera_icons.dart';
 import 'package:plant_calendar/plant.dart';
 import 'package:plant_calendar/plant_form_page.dart';
 import 'package:sqflite/sqflite.dart';
@@ -36,7 +37,7 @@ class PlantsListState extends State<PlantsList> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        leading: Icon(Icons.local_florist,
+                        leading: Icon(Monstera.monstera,
                             color: snapshot.data[index].color),
                         title: Text(snapshot.data[index].name),
                         onTap: () {

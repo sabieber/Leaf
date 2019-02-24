@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plant_calendar/database.dart';
+import 'package:plant_calendar/monstera_icons.dart';
 import 'package:plant_calendar/plant.dart';
 import 'package:plant_calendar/plants_list_page.dart';
 import 'package:plant_calendar/tuple.dart';
@@ -62,7 +63,7 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
 
   ListTile createPlantListTile(Plant plant, List<Watering> waterings) {
     return new ListTile(
-      leading: new Icon(Icons.local_florist, color: plant.color),
+      leading: new Icon(Monstera.monstera, color: plant.color),
       title: new Text(plant.name),
       subtitle: new Wrap(
         spacing: 4.0,

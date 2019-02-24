@@ -4,6 +4,7 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel;
 import 'package:intl/intl.dart';
 import 'package:plant_calendar/database.dart';
+import 'package:plant_calendar/monstera_icons.dart';
 import 'package:plant_calendar/plant.dart';
 import 'package:plant_calendar/plants_list_page.dart';
 import 'package:plant_calendar/watering.dart';
@@ -185,7 +186,7 @@ class CalendarState extends State<Calendar> {
         },
         backgroundColor: Colors.green[400],
         tooltip: 'Pflanzen verwalten',
-        child: Icon(Icons.local_florist),
+        child: Icon(Monstera.monstera),
       ),
     );
   }
