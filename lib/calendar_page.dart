@@ -17,10 +17,6 @@ Future<List<Watering>> fetchWateringsFromDatabase(DateTime month) async {
 }
 
 class Calendar extends StatefulWidget {
-  Calendar({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   CalendarState createState() => CalendarState();
 }
@@ -33,7 +29,7 @@ class CalendarState extends State<Calendar> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[400],
-        title: Text(widget.title),
+        title: Text('Pflanzen Kalender'),
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 16.0),
