@@ -22,7 +22,13 @@ class Calendar extends StatefulWidget {
 }
 
 class CalendarState extends State<Calendar> {
-  DateTime visibleMonth = DateTime.now();
+  DateTime visibleMonth;
+
+  @override
+  void initState() {
+    super.initState();
+    visibleMonth = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +55,7 @@ class CalendarState extends State<Calendar> {
                               watering);
                         });
 
-                        return new CalendarCarousel<Watering>(
+                        var calendar = new CalendarCarousel<Watering>(
                           onDayPressed:
                               (DateTime date, List<Watering> waterings) {
                             showModalBottomSheet<void>(
@@ -58,11 +64,6 @@ class CalendarState extends State<Calendar> {
                                   return WateringBottomSheet(date: date);
                                 }).whenComplete(() {
                               setState(() {});
-                            });
-                          },
-                          onCalendarChanged: (DateTime date) {
-                            setState(() {
-                              visibleMonth = date;
                             });
                           },
                           markedDatesMap: wateringData,
@@ -80,13 +81,6 @@ class CalendarState extends State<Calendar> {
                               width: 4.0,
                             );
                           },
-                          headerText: Text(
-                            '${DateFormat.yMMMM('de').format(visibleMonth)}',
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontFamily: 'Satisfy',
-                            ),
-                          ),
                           prevDaysTextStyle: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 12,
@@ -115,12 +109,65 @@ class CalendarState extends State<Calendar> {
                           todayButtonColor: Colors.green[400],
                           todayBorderColor: Colors.green[700],
                           markedDateIconMaxShown: 10,
-                          iconColor: Colors.black,
                           thisMonthDayBorderColor: Colors.grey[300],
+                          showHeader: false,
                           weekFormat: false,
                           height: 420.0,
                           daysHaveCircularBorder: false,
                           locale: "de",
+                        );
+
+                        return SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              //custom icon without header
+                              Container(
+                                margin: EdgeInsets.only(
+                                  top: 30.0,
+                                  bottom: 16.0,
+                                  left: 16.0,
+                                  right: 16.0,
+                                ),
+                                child: new Row(
+                                  children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(Icons.chevron_left),
+                                      onPressed: () {
+                                        setState(() {
+                                          visibleMonth = visibleMonth
+                                              .subtract(Duration(days: 30));
+                                        });
+                                      },
+                                    ),
+                                    Expanded(
+                                        child: Text(
+                                      '${DateFormat.yMMMM('de').format(visibleMonth)}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 32,
+                                        fontFamily: 'Satisfy',
+                                      ),
+                                    )),
+                                    IconButton(
+                                      icon: Icon(Icons.chevron_right),
+                                      onPressed: () {
+                                        setState(() {
+                                          visibleMonth = visibleMonth
+                                              .add(Duration(days: 30));
+                                        });
+                                      },
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 16.0),
+                                child: calendar,
+                              ), //
+                            ],
+                          ),
                         );
                       }
                       return Text("loading");
