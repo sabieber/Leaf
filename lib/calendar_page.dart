@@ -28,7 +28,8 @@ class CalendarState extends State<Calendar> {
   @override
   void initState() {
     super.initState();
-    visibleMonth = DateTime.now();
+    var now = DateTime.now();
+    visibleMonth = DateTime(now.year, now.month, 1);
   }
 
   @override
@@ -137,8 +138,10 @@ class CalendarState extends State<Calendar> {
                                       icon: Icon(Icons.chevron_left),
                                       onPressed: () {
                                         setState(() {
-                                          visibleMonth = visibleMonth
-                                              .subtract(Duration(days: 30));
+                                          visibleMonth = DateTime(
+                                              visibleMonth.year,
+                                              visibleMonth.month - 1,
+                                              1);
                                         });
                                       },
                                     ),
@@ -155,8 +158,10 @@ class CalendarState extends State<Calendar> {
                                       icon: Icon(Icons.chevron_right),
                                       onPressed: () {
                                         setState(() {
-                                          visibleMonth = visibleMonth
-                                              .add(Duration(days: 30));
+                                          visibleMonth = DateTime(
+                                              visibleMonth.year,
+                                              visibleMonth.month + 1,
+                                              1);
                                         });
                                       },
                                     )
