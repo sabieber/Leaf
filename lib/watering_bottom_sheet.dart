@@ -90,7 +90,7 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
                     plant: plant.id,
                     type: 0));
               } else {
-                provider.deleteByType(widget.date, 0);
+                provider.deleteByType(widget.date, plant.id, 0);
               }
               setState(() {});
             },
@@ -116,7 +116,7 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
                     plant: plant.id,
                     type: 1));
               } else {
-                provider.deleteByType(widget.date, 1);
+                provider.deleteByType(widget.date, plant.id, 1);
               }
               setState(() {});
             },
@@ -142,7 +142,7 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
                     plant: plant.id,
                     type: 2));
               } else {
-                provider.deleteByType(widget.date, 2);
+                provider.deleteByType(widget.date, plant.id, 2);
               }
               setState(() {});
             },

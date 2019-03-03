@@ -135,12 +135,12 @@ class WateringProvider {
     );
   }
 
-  Future<int> deleteByType(DateTime date, int type) async {
+  Future<int> deleteByType(DateTime date, int plantId, int type) async {
     return await db.delete(
       tableWatering,
       where:
-          "$columnYear = ? AND $columnMonth = ? AND $columnDay = ? AND $columnType = ?",
-      whereArgs: [date.year, date.month, date.day, type],
+          "$columnYear = ? AND $columnMonth = ? AND $columnDay = ? AND $columnType = ? AND $columnPlant = ?",
+      whereArgs: [date.year, date.month, date.day, type, plantId],
     );
   }
 
