@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pflanzen Kalender',
+      title: 'Leaf',
       theme: ThemeData(
         primarySwatch: Colors.green,
         fontFamily: 'Montserrat',
