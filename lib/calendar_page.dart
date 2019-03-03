@@ -184,10 +184,16 @@ class CalendarState extends State<Calendar> {
                           ),
                         );
                       }
-                      return Text("loading");
+                      return Container(
+                        alignment: AlignmentDirectional.center,
+                        child: new CircularProgressIndicator(),
+                      );
                     });
               }
-              return Text("loading");
+              return Container(
+                alignment: AlignmentDirectional.center,
+                child: new CircularProgressIndicator(),
+              );
             }),
       ),
       floatingActionButton: FloatingActionButton(
