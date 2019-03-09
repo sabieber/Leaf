@@ -36,8 +36,7 @@ class WateringBottomSheetState extends State<WateringBottomSheet> {
               future: fetchWateringsFromDatabase(widget.date),
               builder: (context, waterings) {
                 if (waterings.hasData) {
-                  return new Column(
-                    mainAxisSize: MainAxisSize.min,
+                  return new ListView(
                     children: plants.data.map((plant) {
                       return createPlantListTile(plant, waterings.data);
                     }).toList(),
