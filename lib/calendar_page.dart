@@ -68,6 +68,14 @@ class CalendarState extends State<Calendar> {
                               setState(() {});
                             });
                           },
+                          onCalendarChanged: (DateTime newDate) {
+                            setState(() {
+                              visibleMonth = DateTime(
+                                  newDate.year,
+                                  newDate.month,
+                                  1);
+                            });
+                          },
                           markedDatesMap: wateringData,
                           markedDateShowIcon: false,
                           markedDateIconBuilder: (watering) {
