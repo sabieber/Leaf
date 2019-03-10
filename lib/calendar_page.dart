@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
-    show CalendarCarousel;
+    show CalendarCarousel, WeekdayFormat;
 import 'package:intl/intl.dart';
 import 'package:plant_calendar/database.dart';
 import 'package:plant_calendar/monstera_icons.dart';
@@ -133,6 +133,7 @@ class CalendarState extends State<Calendar> {
                           height: 420.0,
                           daysHaveCircularBorder: false,
                           locale: "de",
+                          weekDayFormat: WeekdayFormat.standaloneShort,
                         );
 
                         return SingleChildScrollView(
