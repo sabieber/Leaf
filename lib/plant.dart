@@ -5,7 +5,6 @@ final String tablePlant = "plant";
 final String columnPlantId = "_id";
 final String columnName = "name";
 final String columnColor = "color";
-final String columnOrder = "order";
 
 class Plant {
   Plant(this.name, this.color);
