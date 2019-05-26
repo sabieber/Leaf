@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart' show ColorPicker;
+import 'package:flutter_colorpicker/material_picker.dart';
 import 'package:plant_calendar/database.dart';
 import 'package:plant_calendar/plant.dart';
 import 'package:sqflite/sqflite.dart';
@@ -57,10 +57,9 @@ class PlantFormState extends State<PlantForm> {
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 8.0),
-                child: ColorPicker(
+                child: MaterialPicker(
                   pickerColor: color,
-                  enableLabel: false,
-                  enableAlpha: false,
+                  enableLabel: true,
                   onColorChanged: (newColor) {
                     color = newColor;
                   },
